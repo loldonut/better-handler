@@ -1,6 +1,6 @@
 {
   "name": "better-handler",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A package for DJS to both handle Slash Commands and Prefixed (Legacy) Commands",
   "main": "./dist/index.js",
   "files": [
