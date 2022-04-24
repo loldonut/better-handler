@@ -2,9 +2,14 @@
 
 A DJS Command Handler to make it easier to handle both Prefixed Legacy Commands (e.g. `!ping`) and Slash Commands.
 
-## Installation
+## Table of Contents
 
-**Note: `better-handler` is currently unavailable on  NPM. This is just for when it's actually released for NPM**
+- [Installation](#installation)
+- [Setup](#setup)
+- [Parameters](#parameters)
+- [Project Status](#status)
+
+## Installation
 
 ```sh-session
 npm install better-handler
