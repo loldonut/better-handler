@@ -1,3 +1,13 @@
+<div>
+    <br />
+    <p>
+        <a href="https://www.npmjs.com/package/better-handler"><img src="https://img.shields.io/npm/v/better-handler?logo=npm" alt="npm version"></a>
+        <a href="https://github.com/loldonut/better-handler"><img src ="https://img.shields.io/github/languages/code-size/loldonut/better-handler?logo=github" alt="github code size"></a>
+        <img src="https://img.shields.io/npm/l/better-handler" alt="license">
+    </p>
+    <br />
+</div>
+
 # Better Handler
 
 A DJS Command Handler to make it easier to handle both Prefixed Legacy Commands (e.g. `!ping`) and Slash Commands.
