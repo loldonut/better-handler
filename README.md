@@ -1,3 +1,5 @@
+# Better Handler
+
 <div>
     <br />
     <p>
@@ -7,8 +9,6 @@
     </p>
     <br />
 </div>
-
-# Better Handler
 
 A DJS Command Handler to make it easier to handle both Prefixed Legacy Commands (e.g. `!ping`) and Slash Commands.
 
