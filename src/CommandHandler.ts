@@ -1,11 +1,17 @@
 import * as fs from 'node:fs';
-import { Collection, Client } from 'discord.js';
+import {
+    Collection,
+    Client,
+} from 'discord.js';
 import { EventEmitter } from 'node:events';
 
 import {
     CommandOptions,
     CommandHandlerOptions,
 } from '../typings/interfaces';
+import {
+    resolvedCommand,
+} from '../typings/index.d';
 
 export default class CommandHandler extends EventEmitter {
     public client: Client;
@@ -36,13 +42,34 @@ export default class CommandHandler extends EventEmitter {
             const args = message.content
                 .slice(prefix.length)
                 .trim()
-                .split(/\s+/);
+                .split(/\s+/g);
             const command = args.shift()
                 ?.toLowerCase();
             if (!message.content.startsWith(prefix)) return;
 
             const commands = this.commands.get(command!);
             if (!commands) return;
+
+            // Validate the Command
+            const isCommandValid = this.resolveCommand(commands, 
+                args
+            );
+
+            switch (typeof isCommandValid) {
+                case 'object':
+                    await message.reply(isCommandValid);
+                    return;
+
+                case 'string':
+                    await message.reply({
+                        content: isCommandValid,
+                    });
+                    return;
+
+                case 'boolean':
+                    if (isCommandValid !== true) return
+                    else break;
+            }
 
             try {
                 await commands.execute(message, args, this.client);
@@ -51,6 +78,18 @@ export default class CommandHandler extends EventEmitter {
                 this.Log(err, true);
             }
         });
+    }
+
+    public resolveCommand(command: CommandOptions, 
+                          args: string[]): resolvedCommand {
+        if (command.reqArgs 
+            && args.length < command.reqArgs) {
+            return {
+                content: `**Not enough arguments passed!**\n(Need ${command.reqArgs} got ${args.length})`,
+            };
+        }
+
+        return true;
     }
 
     private _registerCommands(): void {

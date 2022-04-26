@@ -9,6 +9,8 @@ export interface CommandHandlerOptions {
 export interface CommandOptions {
     name: string;
 
+    reqArgs?: number;
+
     execute(message: Message, 
             args?: Array<string>, 
             client?: Client): Promise<any>;
