@@ -19,5 +19,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install Node Dependencies and run eslint
       run: |
-        npm i -g eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
+        npm i -g eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
         eslint .
