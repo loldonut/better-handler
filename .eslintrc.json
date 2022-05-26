@@ -32,6 +32,12 @@
         "semi": [
             "error",
             "always"
+        ],
+        "@typescript-eslint/array-type": [
+            "error",
+            {
+                "default": "generic"
+            }
         ]
     }
 }
