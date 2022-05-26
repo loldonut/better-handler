@@ -17,10 +17,7 @@ jobs:
       uses: actions/setup-node@v3.1.0
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install Node Dependencies
+    - name: Install Node Dependencies and run eslint
       run: |
         npm i -g eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
-
-    - name: Deploy Slash Commands
-      run: |
         eslint .
