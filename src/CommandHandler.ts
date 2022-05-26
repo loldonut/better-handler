@@ -86,7 +86,7 @@ export default class CommandHandler extends EventEmitter {
 
     public resolveCommand(
         command: CommandOptions, 
-        args: string[]
+        args: Array<string>
     ): resolvedCommand {
         if (command.reqArgs 
             && args.length < command.reqArgs) {

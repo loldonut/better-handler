@@ -27,7 +27,7 @@ export class CommandHandler extends EventEmitter {
 
     public resolveCommand(
         command: CommandOptions,
-        args: string[]
+        args: Array<string>
     ): resolvedCommand;
 
     private _start(): void;
