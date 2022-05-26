@@ -19,6 +19,20 @@ export default class CommandHandler extends EventEmitter {
 
     private commands: Collection<string, CommandOptions>;
 
+    /**
+     * @typedef {Object} CommandHandlerOptions
+     *
+     * @property {string} path - Path to your Commands
+     * @property {string} prefix - Prefix of the Bot
+     * @property {boolean} [log] - If you want to log Command Handler states
+     */
+
+    /**
+     * A Command Handler for your discord bot
+     *
+     * @param {Client} client
+     * @param {CommandHandlerOptions} options
+     */
     public constructor(
         client: Client, 
         options: CommandHandlerOptions
@@ -36,6 +50,10 @@ export default class CommandHandler extends EventEmitter {
         this._start();
     }
 
+    /**
+     * Starts the command handler
+     * @private
+     */
     private _start(): void {
         this._registerCommands();
 
@@ -84,6 +102,18 @@ export default class CommandHandler extends EventEmitter {
         });
     }
 
+    /**
+     * @typedef {string|MessageOptions|boolean} resolvedCommand
+     */
+    
+    /**
+     * Resolves a command by checking if the user or the bot is able to run the commmand
+     *
+     * @param {CommandOptions} command
+     * @param {Array<string>} args
+     *
+     * @returns {resolvedCommand}
+     */
     public resolveCommand(
         command: CommandOptions, 
         args: Array<string>
@@ -98,6 +128,10 @@ export default class CommandHandler extends EventEmitter {
         return true;
     }
 
+    /**
+     * Registers your command(s)
+     * @private
+     */
     private _registerCommands(): void {
         const path = this.options.path;
 
@@ -123,6 +157,12 @@ export default class CommandHandler extends EventEmitter {
         this.Log('Registered Commands.');
     }
 
+    /**
+     * Logs/Emits to event `logs`
+     *
+     * @param {string|T} message
+     * @param {boolean} [error]
+     */
     private Log<T>(message: string | T , error?: boolean): void {
         if (!error) {
             this.emit('logs', `[INFO] [Command Handler]: ${message}`);
