@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node-version: ['17.x', '18.x']
-    
+
     steps:
     - uses: actions/checkout@v3
     - name: Setup Node.js (${{ matrix.node-version }}) Environment
@@ -19,7 +19,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install Node Dependencies
       run: |
-        npm i eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
-    - name: Run ESLint
+        npm i -g eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
+
+    - name: Deploy Slash Commands
       run: |
         eslint .
