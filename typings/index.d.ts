@@ -8,7 +8,7 @@ import {
 import {
     CommandOptions,
     CommandHandlerOptions,
-} from './interfaces'
+} from './interfaces';
 
 export type resolvedCommand = string
                             | MessageOptions
@@ -20,13 +20,17 @@ export class CommandHandler extends EventEmitter {
 
     private commands: Collection<string, CommandOptions>;
 
-    public constructor(client: Client, 
-                       options: CommandHandlerOptions);
+    public constructor(
+        client: Client, 
+        options: CommandHandlerOptions
+    );
 
-    public resolveCommand(command: CommandOptions,
-                          args: string[]): resolvedCommand;
+    public resolveCommand(
+        command: CommandOptions,
+        args: string[]
+    ): resolvedCommand;
 
     private _start(): void;
     private _registerCommands(): void;
-    private Log(message: string, error?: boolean): void;
+    private Log<T>(message: string | T, error?: boolean): void;
 }

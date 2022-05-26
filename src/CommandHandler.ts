@@ -19,8 +19,10 @@ export default class CommandHandler extends EventEmitter {
 
     private commands: Collection<string, CommandOptions>;
 
-    public constructor(client: Client, 
-                       options: CommandHandlerOptions) {
+    public constructor(
+        client: Client, 
+        options: CommandHandlerOptions
+    ) {
         super();
         this.client = client;
         this.options = options;
@@ -47,15 +49,17 @@ export default class CommandHandler extends EventEmitter {
                 ?.toLowerCase();
             if (!message.content.startsWith(prefix)) return;
 
-            const commands = this.commands.get(command!);
+            const commands = this.commands.get(command!); // eslint-disable-line
             if (!commands) return;
 
             // Validate the Command
-            const isCommandValid = this.resolveCommand(commands, 
+            const isCommandValid = this.resolveCommand(
+                commands, 
                 args
             );
 
             switch (typeof isCommandValid) {
+            /* eslint-disable indent */
                 case 'object':
                     await message.reply(isCommandValid);
                     return;
@@ -67,21 +71,23 @@ export default class CommandHandler extends EventEmitter {
                     return;
 
                 case 'boolean':
-                    if (isCommandValid !== true) return
+                    if (isCommandValid !== true) return;
                     else break;
             }
+            /* eslint-enable */
 
             try {
                 await commands.execute(message, args, this.client);
             } catch (err) {
-                // @ts-ignore
-                this.Log(err, true);
+                this.Log<typeof err>(err, true);
             }
         });
     }
 
-    public resolveCommand(command: CommandOptions, 
-                          args: string[]): resolvedCommand {
+    public resolveCommand(
+        command: CommandOptions, 
+        args: string[]
+    ): resolvedCommand {
         if (command.reqArgs 
             && args.length < command.reqArgs) {
             return {
@@ -105,7 +111,7 @@ export default class CommandHandler extends EventEmitter {
         }
 
         commandFiles.forEach((file) => {
-            const command: CommandOptions = require(`${path}/${file}`);
+            const command: CommandOptions = require(`${path}/${file}`); // eslint-disable-line
 
             this.commands.set(command.name, command);
         });
@@ -117,7 +123,7 @@ export default class CommandHandler extends EventEmitter {
         this.Log('Registered Commands.');
     }
 
-    private Log(message: string, error?: boolean): void {
+    private Log<T>(message: string | T , error?: boolean): void {
         if (!error) {
             this.emit('logs', `[INFO] [Command Handler]: ${message}`);
         }

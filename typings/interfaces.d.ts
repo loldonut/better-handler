@@ -1,4 +1,5 @@
-import { Client, Message } from "discord.js";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Client, Message } from 'discord.js';
 
 export interface CommandHandlerOptions {
     path: string;
@@ -11,7 +12,9 @@ export interface CommandOptions {
 
     reqArgs?: number;
 
-    execute(message: Message, 
-            args?: Array<string>, 
-            client?: Client): Promise<any>;
+    execute(
+        message: Message, 
+        args?: Array<string>, 
+        client?: Client
+    ): Promise<any>;
 }
