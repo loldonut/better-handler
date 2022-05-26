@@ -2,21 +2,21 @@ name: ESLint Check
 
 on:
   - push
+  - pull_request
 
 jobs:
   lint:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node-version: ['17.x', '18.x']
-
+    name: Lint
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Setup Node.js (${{ matrix.node-version }}) Environment
+    - name: Setup Node.js v16 Environment
       uses: actions/setup-node@v3.1.0
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: package.json
+
     - name: Install Node Dependencies and run eslint
       run: |
         npm i -g eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
