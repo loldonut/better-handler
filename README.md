@@ -76,7 +76,7 @@ The main function to run your command
 - **type:** `Function`
 
 <details>
-<summary>**(JS) Example**</summary>
+<summary><b>(JS) Example</b></summary>
 <br>
 
 ```js
