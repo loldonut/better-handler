@@ -96,6 +96,7 @@ module.exports = {
 <details>
 <summary>Links to Typedefs and Classes</summary>
 <br>
+
 [MessageOptions](https://discord.js.org/#/docs/discord.js/stable/typedef/MessageOptions)
 
 [MessagePayload](https://discord.js.org/#/docs/discord.js/stable/class/MessagePayload)
