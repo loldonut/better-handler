@@ -75,7 +75,9 @@ The main function to run your command
 - [x] Required
 - **type:** `Function`
 
-**(JS) Example**
+<details>
+<summary>**(JS) Example**</summary>
+<br>
 
 ```js
 module.exports = {
@@ -94,15 +96,16 @@ module.exports = {
 `CommandReturnOptions` can be:
 `string`, `[MessageOptions|MessagePayload|ReplyMessageOptions, boolean?]`, `void`
 
-<details>
-<summary>Links to Typedefs and Classes</summary>
-<br>
+    <details>
+    <summary>Links to Typedefs and Classes</summary>
+    <br>
 
-[MessageOptions](https://discord.js.org/#/docs/discord.js/stable/typedef/MessageOptions)
+        [MessageOptions](https://discord.js.org/#/docs/discord.js/stable/typedef/MessageOptions)
 
-[MessagePayload](https://discord.js.org/#/docs/discord.js/stable/class/MessagePayload)
+        [MessagePayload](https://discord.js.org/#/docs/discord.js/stable/class/MessagePayload)
 
-[ReplyMessageOptions](https://discord.js.org/#/docs/discord.js/stable/typedef/ReplyMessageOptions)
+        [ReplyMessageOptions](https://discord.js.org/#/docs/discord.js/stable/typedef/ReplyMessageOptions)
+    </details>
 </details>
 
 ### reqArgs
