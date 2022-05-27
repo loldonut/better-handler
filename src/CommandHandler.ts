@@ -95,7 +95,27 @@ export default class CommandHandler extends EventEmitter {
             /* eslint-enable */
 
             try {
-                await commands.execute(message, args, this.client);
+                const executedCMD = await commands.execute(message, args, this.client);
+                if (!executedCMD) return;
+
+                if (typeof executedCMD === 'string') {
+                    await message.reply({
+                        content: executedCMD,
+                    });
+                }
+                else if (Array.isArray(executedCMD)) {
+                    if (!executedCMD.length) return;
+
+                    if (!executedCMD[1]) {
+                        await message.channel.send(executedCMD[0]);
+                    }
+                    else if (executedCMD[1] === true) {
+                        await message.reply(executedCMD[0]);
+                    } else {
+                        await message.reply(executedCMD[0]);
+                    }
+                }
+                /* eslint-enable */
             } catch (err) {
                 this.Log<typeof err>(err, true);
             }
@@ -105,7 +125,7 @@ export default class CommandHandler extends EventEmitter {
     /**
      * @typedef {string|MessageOptions|boolean} resolvedCommand
      */
-    
+
     /**
      * Resolves a command by checking if the user or the bot is able to run the commmand
      *
@@ -118,8 +138,9 @@ export default class CommandHandler extends EventEmitter {
         command: CommandOptions, 
         args: Array<string>
     ): resolvedCommand {
-        if (command.reqArgs 
-            && args.length < command.reqArgs) {
+        if (
+            command.reqArgs && args.length < command.reqArgs
+        ) {
             return {
                 content: `**Not enough arguments passed!**\n(Need ${command.reqArgs} got ${args.length})`,
             };

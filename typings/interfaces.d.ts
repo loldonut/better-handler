@@ -1,5 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Client, Message } from 'discord.js';
+import {
+    Client,
+    Message
+} from 'discord.js';
+
+import {
+    CommandReturnOptions,
+} from './index';
 
 export interface CommandHandlerOptions {
     path: string;
@@ -16,5 +22,5 @@ export interface CommandOptions {
         message: Message, 
         args?: Array<string>, 
         client?: Client
-    ): Promise<any>;
+    ): CommandReturnOptions;
 }

@@ -3,6 +3,8 @@ import {
     Collection,
     Client,
     MessageOptions,
+    MessagePayload,
+    ReplyMessageOptions,
 } from 'discord.js';
 
 import {
@@ -13,6 +15,12 @@ import {
 export type resolvedCommand = string
                             | MessageOptions
                             | boolean;
+
+export type CommandReturnOptions = Promise<
+        string
+        | [MessageOptions | MessagePayload | ReplyMessageOptions, boolean?]
+        | void
+    >;
 
 export class CommandHandler extends EventEmitter {
     public client: Client;
