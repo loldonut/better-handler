@@ -56,6 +56,59 @@ new CommandHandler(client, {
         - **path** *(string)* - Path to the commands folder
         - **log** *(boolean, optional)* - If you want the Command Handler to Log the status of the Handler.
 
+## Command Option
+
+***Available Command Options for your commands:***
+
+### name
+
+The name of the command
+
+[x] Required
+- type: `string`
+
+### execute
+
+The main function to run your command
+
+[x] Required
+- type: `Function`
+
+**(JS) Example**
+
+```js
+module.exports = {
+    name: 'ping',
+
+    async execute(message) {
+        return [{
+            content: `Pong! | ${message.client.ws.ping}ms`,
+        }, true];
+    },
+};
+```
+
+**Return type:** `CommandReturnOptions`
+
+`CommandReturnOptions` can be:
+`string`, `[MessageOptions|MessagePayload|ReplyMessageOptions, boolean?]`, `void`
+
+<details>
+<summary>Links to Typedefs and Classes</summary>
+<br>
+[MessageOptions](https://discord.js.org/#/docs/discord.js/stable/typedef/MessageOptions)
+
+[MessagePayload](https://discord.js.org/#/docs/discord.js/stable/class/MessagePayload)
+
+[ReplyMessageOptions](https://discord.js.org/#/docs/discord.js/stable/typedef/ReplyMessageOptions)
+</details>
+
+### reqArgs
+
+The required length of argument(s) needed to run the command
+
+- type: `number`
+
 ## Status
 
 Currently, `better-handler` is just your average command handler since I'm still thinking about how the design should be.
