@@ -17,6 +17,7 @@ A DJS Command Handler to make it easier to handle both Prefixed Legacy Commands 
 - [Installation](#installation)
 - [Setup](#setup)
 - [Parameters](#parameters)
+- [Command Options](#commandoptions)
 - [Project Status](#status)
 
 ## Installation
@@ -56,7 +57,7 @@ new CommandHandler(client, {
         - **path** *(string)* - Path to the commands folder
         - **log** *(boolean, optional)* - If you want the Command Handler to Log the status of the Handler.
 
-## Command Option
+## Command Options
 
 ***Available Command Options for your commands:***
 
@@ -65,14 +66,14 @@ new CommandHandler(client, {
 The name of the command
 
 - [x] Required
-- type: `string`
+- **type:** `string`
 
 ### execute
 
 The main function to run your command
 
 - [x] Required
-- type: `Function`
+- **type:** `Function`
 
 **(JS) Example**
 
@@ -108,7 +109,7 @@ module.exports = {
 
 The required length of argument(s) needed to run the command
 
-- type: `number`
+- **type:** `number`
 
 ## Status
 
