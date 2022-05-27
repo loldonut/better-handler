@@ -64,14 +64,14 @@ new CommandHandler(client, {
 
 The name of the command
 
-[x] Required
+- [x] Required
 - type: `string`
 
 ### execute
 
 The main function to run your command
 
-[x] Required
+- [x] Required
 - type: `Function`
 
 **(JS) Example**
