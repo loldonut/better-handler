@@ -33,10 +33,7 @@ export default class CommandHandler extends EventEmitter {
      * @param {Client} client
      * @param {CommandHandlerOptions} options
      */
-    public constructor(
-        client: Client, 
-        options: CommandHandlerOptions
-    ) {
+    public constructor(client: Client, options: CommandHandlerOptions) {
         super();
         this.client = client;
         this.options = options;
@@ -63,8 +60,7 @@ export default class CommandHandler extends EventEmitter {
                 .slice(prefix.length)
                 .trim()
                 .split(/\s+/g);
-            const command = args.shift()
-                ?.toLowerCase();
+            const command = args.shift()?.toLowerCase();
             if (!message.content.startsWith(prefix)) return;
 
             const commands = this.commands.get(command!); // eslint-disable-line
@@ -134,13 +130,8 @@ export default class CommandHandler extends EventEmitter {
      *
      * @returns {resolvedCommand}
      */
-    public resolveCommand(
-        command: CommandOptions, 
-        args: Array<string>
-    ): resolvedCommand {
-        if (
-            command.reqArgs && args.length < command.reqArgs
-        ) {
+    public resolveCommand(command: CommandOptions, args: Array<string>): resolvedCommand {
+        if (command.reqArgs && args.length < command.reqArgs) {
             return {
                 content: `**Not enough arguments passed!**\n(Need ${command.reqArgs} got ${args.length})`,
             };
