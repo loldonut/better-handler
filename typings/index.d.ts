@@ -2,7 +2,7 @@ import { EventEmitter } from 'node:events';
 import {
     Collection,
     Client,
-    MessagePayload,
+    MessageCreateOptions,
     MessageReplyOptions,
 } from 'discord.js';
 
@@ -12,12 +12,12 @@ import {
 } from './interfaces';
 
 export type resolvedCommand = string
-                            | MessagePayload
+                            | MessageCreateOptions
                             | boolean;
 
 export type CommandReturnOptions = Promise<
         string
-        | [MessagePayload | MessageReplyOptions, boolean?]
+        | [MessageCreateOptions | MessageReplyOptions, boolean?]
         | void
     >;
 
