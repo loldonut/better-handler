@@ -143,7 +143,7 @@ export default class CommandHandler extends EventEmitter {
      * Registers your command(s)
      * @private
      */
-    private _registerCommands(): void {
+    private async _registerCommands(): Promise<void> {
         const path = this.options.path;
 
         const commandFiles = fs.readdirSync(path)
@@ -152,7 +152,7 @@ export default class CommandHandler extends EventEmitter {
         this.Log('Registering Commands...');
 
         for (const file of commandFiles) {
-            const command = require(`${path}/${file}`) as CommandOptions; // eslint-disable-line
+            const command = ((await import(`${path}/${file}`)).default) as CommandOptions; // eslint-disable-line
 
             this.commands.set(command.name, command);
             this.Log(`Loaded command ${command.name}`);
