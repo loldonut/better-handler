@@ -2,9 +2,8 @@ import { EventEmitter } from 'node:events';
 import {
     Collection,
     Client,
-    MessageOptions,
     MessagePayload,
-    ReplyMessageOptions,
+    MessageReplyOptions,
 } from 'discord.js';
 
 import {
@@ -13,12 +12,12 @@ import {
 } from './interfaces';
 
 export type resolvedCommand = string
-                            | MessageOptions
+                            | MessagePayload
                             | boolean;
 
 export type CommandReturnOptions = Promise<
         string
-        | [MessageOptions | MessagePayload | ReplyMessageOptions, boolean?]
+        | [MessagePayload | MessageReplyOptions, boolean?]
         | void
     >;
 
@@ -39,6 +38,6 @@ export class CommandHandler extends EventEmitter {
     ): resolvedCommand;
 
     private _start(): void;
-    private _registerCommands(): void;
+    private _registerCommands(): Promise<void>;
     private Log<T>(message: string | T, error?: boolean): void;
 }
