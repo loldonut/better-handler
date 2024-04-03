@@ -152,9 +152,10 @@ export default class CommandHandler extends EventEmitter {
         this.Log('Registering Commands...');
 
         commandFiles.forEach((file) => {
-            const command: CommandOptions = require(`${path}/${file}`); // eslint-disable-line
+            const command = require(`${path}/${file}`) as CommandOptions; // eslint-disable-line
 
             this.commands.set(command.name, command);
+            this.Log(`Loaded command ${command.name}`);
         });
 
         this.Log('Registered Commands.');
