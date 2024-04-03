@@ -66,7 +66,6 @@ export default class CommandHandler extends EventEmitter {
             const commands = this.commands.get(command!); // eslint-disable-line
             if (!commands) return;
 
-            // Validate the Command
             const isCommandValid = this.resolveCommand(
                 commands, 
                 args
@@ -152,19 +151,11 @@ export default class CommandHandler extends EventEmitter {
 
         this.Log('Registering Commands...');
 
-        if (this.options.log !== false) {
-            console.time('Command(s) Register Time');
-        }
-
         commandFiles.forEach((file) => {
             const command: CommandOptions = require(`${path}/${file}`); // eslint-disable-line
 
             this.commands.set(command.name, command);
         });
-
-        if (this.options.log !== false) {
-            console.timeEnd('Command(s) Register Time');
-        }
 
         this.Log('Registered Commands.');
     }
