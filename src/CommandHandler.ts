@@ -80,9 +80,9 @@ export default class CommandHandler extends EventEmitter {
 
             if (
                 this.options.cooldown &&
-                this.options.cooldown.defaultCooldown &&
-                commands?.cooldown
-            ) resolveCooldown(message, commands, this.options, this.cooldowns);
+                this.options.cooldown.defaultCooldown
+            )
+                resolveCooldown(message, commands, this.options, this.cooldowns);
 
             switch (typeof isCommandValid) {
             /* eslint-disable indent */
