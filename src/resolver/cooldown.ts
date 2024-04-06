@@ -18,8 +18,13 @@ export default async function resolveCooldown(
     const defaultCooldown = cooldownOpt.defaultCooldown;
     const commandCooldown = (commands.cooldown! ?? defaultCooldown) * 1_000;
 
-    const cooldown = cooldowns.get(commands.name);
-    if (!cooldown?.has(message.author.id)) return;
+    const cooldown = cooldowns.get(commands.name)!;
+    if (!cooldown?.has(message.author.id)) {
+        cooldown.set(message.author.id, Date.now());
+        setTimeout(() => {
+            cooldown.delete(message.author.id);
+        }, commandCooldown);
+    }
 
     const cooldownTime = cooldown.get(message.author.id)!;
     const currentTime = Date.now();
