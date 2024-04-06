@@ -4,6 +4,8 @@ import {
     Client,
     MessageCreateOptions,
     MessageReplyOptions,
+    Snowflake,
+    Message,
 } from 'discord.js';
 
 import {
@@ -21,11 +23,15 @@ export type CommandReturnOptions = Promise<
         | void
     >;
 
+export type CommandsCollection = Collection<string, CommandOptions>;
+export type CooldownsCollection = Collection<string, Collection<Snowflake, number>>;
+
 export class CommandHandler extends EventEmitter {
     public client: Client;
     public options: CommandHandlerOptions;
 
-    private commands: Collection<string, CommandOptions>;
+    private commands: CommandsCollection;
+    private cooldowns: CooldownsCollection;
 
     public constructor(
         client: Client, 
@@ -39,5 +45,6 @@ export class CommandHandler extends EventEmitter {
 
     private _start(): void;
     private _registerCommands(): Promise<void>;
+    private _resolveCooldown(message: Message, commands: Collection<string, CommandOptions>): Promise<void>;
     private Log<T>(message: string | T, error?: boolean): void;
 }

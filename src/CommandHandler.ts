@@ -1,23 +1,29 @@
-import * as fs from 'node:fs';
+import { readdirSync } from 'node:fs';
+import { EventEmitter } from 'node:events';
+
 import {
     Collection,
     Client,
+    Snowflake,
 } from 'discord.js';
-import { EventEmitter } from 'node:events';
+
 
 import {
     CommandOptions,
     CommandHandlerOptions,
 } from '../typings/interfaces';
+
 import {
     resolvedCommand,
 } from '../typings/index.d';
+import resolveCooldown from './resolver/cooldown';
 
 export default class CommandHandler extends EventEmitter {
     public client: Client;
     public options: CommandHandlerOptions;
 
     private commands: Collection<string, CommandOptions>;
+    private cooldowns: Collection<string, Collection<Snowflake, number>>;
 
     /**
      * @typedef {Object} CommandHandlerOptions
@@ -39,6 +45,7 @@ export default class CommandHandler extends EventEmitter {
         this.options = options;
 
         this.commands = new Collection();
+        this.cooldowns = new Collection();
 
         if (this.options.log !== false) {
             this.on('logs', console.log);
@@ -70,6 +77,12 @@ export default class CommandHandler extends EventEmitter {
                 commands, 
                 args
             );
+
+            if (
+                this.options.cooldown &&
+                this.options.cooldown.defaultCooldown &&
+                commands?.cooldown
+            ) resolveCooldown(message, commands, this.options, this.cooldowns);
 
             switch (typeof isCommandValid) {
             /* eslint-disable indent */
@@ -146,7 +159,7 @@ export default class CommandHandler extends EventEmitter {
     private async _registerCommands(): Promise<void> {
         const path = this.options.path;
 
-        const commandFiles = fs.readdirSync(path)
+        const commandFiles = readdirSync(path)
             .filter((file) => file.endsWith('.js'));
 
         this.Log('Registering Commands...');
@@ -155,6 +168,8 @@ export default class CommandHandler extends EventEmitter {
             const command = ((await import(`${path}/${file}`)).default) as CommandOptions; // eslint-disable-line
 
             this.commands.set(command.name, command);
+            if (this.options?.cooldown)
+                this.cooldowns.set(command.name, new Collection());
             this.Log(`Loaded command ${command.name}`);
         }
 
@@ -162,11 +177,11 @@ export default class CommandHandler extends EventEmitter {
     }
 
     /**
-     * Logs/Emits to event `logs`
-     *
-     * @param {string|T} message
-     * @param {boolean} [error]
-     */
+        * Logs/Emits to event `logs`
+    *
+        * @param {string|T} message
+    * @param {boolean} [error]
+    */
     private Log<T>(message: string | T , error?: boolean): void {
         if (!error) {
             this.emit('logs', `[INFO] [Command Handler]: ${message}`);
