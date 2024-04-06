@@ -9,7 +9,9 @@
   ],
   "typings": "./typings/index.d.ts",
   "scripts": {
-    "prepublishOnly": "tsc"
+    "lint:staged": "yarn lint-staged",
+    "prepublishOnly": "tsc",
+    "prepare": "husky"
   },
   "keywords": [
     "djs",
@@ -29,6 +31,9 @@
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "@typescript-eslint/parser": "^7.5.0",
     "eslint": "^8.57.0",
-    "typescript": "^5.4.3"
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "typescript": "^5.4.3",
+    "yarn": "^1.22.22"
   }
 }
