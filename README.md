@@ -81,7 +81,7 @@ Custom message when the user is on cooldown
 Example:
 
 ```js
-const { setTimeout: sleep } from 'node:timers/promises';
+const { setTimeout: sleep } = require('node:timers/promises');
 
 new CommandHandler(client, {
     prefix: 'PREFIX_HERE',
