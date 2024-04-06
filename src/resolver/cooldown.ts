@@ -31,7 +31,7 @@ export default async function resolveCooldown(
 
     if (!(cooldownTime < currentTime)) return false;
 
-    const expirationTime = Math.round((cooldownTime + commandCooldown) / 1_000);
+    const expirationTime = Math.round(((cooldownTime + commandCooldown) / 1_000));
     const expirationFormatted = `<t:${expirationTime}:R>` as RelativeTimeFormat;
 
     if (cooldownOpt.message && typeof cooldownOpt.message === 'function') {
