@@ -26,6 +26,8 @@ export type CommandReturnOptions = Promise<
 export type CommandsCollection = Collection<string, CommandOptions>;
 export type CooldownsCollection = Collection<string, Collection<Snowflake, number>>;
 
+export type RelativeTimeFormat = `<t:${number}:R>`;
+
 export class CommandHandler extends EventEmitter {
     public client: Client;
     public options: CommandHandlerOptions;

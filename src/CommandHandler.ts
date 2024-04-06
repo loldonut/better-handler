@@ -81,8 +81,10 @@ export default class CommandHandler extends EventEmitter {
             if (
                 this.options.cooldown &&
                 this.options.cooldown.defaultCooldown
-            )
-                resolveCooldown(message, commands, this.options, this.cooldowns);
+            ) {
+                const isOnCooldown = await resolveCooldown(message, commands, this.options, this.cooldowns);
+                if (isOnCooldown) return;
+            }
 
             switch (typeof isCommandValid) {
             /* eslint-disable indent */

@@ -5,11 +5,12 @@ import {
 
 import {
     CommandReturnOptions,
+    RelativeTimeFormat,
 } from './index';
 
 export type CooldownMessageOptions =
     // eslint-disable-next-line
-    ((message: Message, expirationTime: `<t:${number}:R>`) => Promise<any>)
+    ((message: Message, expirationTime: RelativeTimeFormat) => Promise<any>)
     | string; 
 
 export interface CooldownOptions {
