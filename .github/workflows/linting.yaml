@@ -19,6 +19,6 @@ jobs:
 
     - name: Install Node Dependencies and run eslint
       run: |
-        npm i -g eslint @typescript-eslint/parser --save-dev
+        npm i -g eslint@8.57.0 @typescript-eslint/parser --save-dev
         npm i @typescript-eslint/eslint-plugin@latest --save-dev
         eslint .
