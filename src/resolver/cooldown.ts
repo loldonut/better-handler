@@ -2,14 +2,17 @@ import { setTimeout as sleep } from 'node:timers/promises';
 
 import { Message } from 'discord.js';
 
-import { CommandHandlerOptions, CommandOptions } from '../../typings/interfaces';
+import {
+    CommandHandlerOptions,
+    CommandOptions,
+} from '../../typings/interfaces';
 import { CooldownsCollection } from '../../typings';
 
 export default async function resolveCooldown(
     message: Message,
     commands: CommandOptions,
     options: CommandHandlerOptions,
-    cooldowns: CooldownsCollection,
+    cooldowns: CooldownsCollection
 ): Promise<void> {
     const cooldownOpt = options.cooldown;
     const defaultCooldown = cooldownOpt.defaultCooldown;
@@ -21,30 +24,22 @@ export default async function resolveCooldown(
     const cooldownTime = cooldown.get(message.author.id)!;
     const currentTime = Date.now();
 
-    if (cooldownTime < currentTime) {
-        const expirationTime = Math.round(
-            (cooldownTime + commandCooldown) / 1_000
+    if (!(cooldownTime < currentTime)) return;
+
+    const expirationTime = Math.round((cooldownTime + commandCooldown) / 1_000);
+
+    if (cooldownOpt.message && typeof cooldownOpt.message === 'function') {
+        cooldownOpt.message(message, `<t:${expirationTime}:R>`);
+    } else if (cooldownOpt.message && typeof cooldownOpt.message === 'string') {
+        const cooldownText = cooldownOpt.message.replaceAll(
+            '{cooldown}',
+            expirationTime.toString()
         );
+        const cooldownMessage = await message.reply({
+            content: cooldownText,
+        });
 
-        if (
-            cooldownOpt.message &&
-            typeof cooldownOpt.message === 'function'
-        ) {
-            cooldownOpt.message(message, `<t:${expirationTime}:R>`);
-        } else if (
-            cooldownOpt.message &&
-            typeof cooldownOpt.message === 'string'
-        ) {
-            const cooldownText = cooldownOpt.message.replaceAll(
-                '{cooldown}',
-                expirationTime.toString()
-            );
-            const cooldownMessage = await message.reply({
-                content: cooldownText,
-            });
-
-            await sleep(3_000);
-            if (cooldownMessage.deletable) await cooldownMessage.delete();
-        }
+        await sleep(3_000);
+        if (cooldownMessage.deletable) await cooldownMessage.delete();
     }
 }
