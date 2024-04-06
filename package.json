@@ -1,39 +1,40 @@
 {
-  "name": "better-handler",
-  "version": "0.3.0",
-  "description": "A package for DJS to both handle Slash Commands and Prefixed (Legacy) Commands",
-  "main": "./dist/index.js",
-  "files": [
-    "dist",
-    "typings"
-  ],
-  "typings": "./typings/index.d.ts",
-  "scripts": {
-    "lint:staged": "yarn lint-staged",
-    "prepublishOnly": "tsc",
-    "prepare": "husky"
-  },
-  "keywords": [
-    "djs",
-    "discord.js",
-    "discord",
-    "better-handler",
-    "command-handler",
-    "djs-cmd-handler"
-  ],
-  "author": "John Heinrich",
-  "license": "MIT",
-  "dependencies": {
-    "@discordjs/collection": "^2.0.0",
-    "discord.js": "^14.14.1"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
-    "eslint": "^8.57.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "typescript": "^5.4.3",
-    "yarn": "^1.22.22"
-  }
+    "name": "better-handler",
+    "version": "0.3.0",
+    "description": "A package for DJS to both handle Slash Commands and Prefixed (Legacy) Commands",
+    "main": "./dist/index.js",
+    "files": [
+        "dist",
+        "typings"
+    ],
+    "typings": "./typings/index.d.ts",
+    "scripts": {
+        "lint:staged": "yarn lint-staged",
+        "prepublishOnly": "tsc",
+        "prepare": "husky"
+    },
+    "keywords": [
+        "djs",
+        "discord.js",
+        "discord",
+        "better-handler",
+        "command-handler",
+        "djs-cmd-handler"
+    ],
+    "author": "John Heinrich",
+    "license": "MIT",
+    "dependencies": {
+        "@discordjs/collection": "^2.0.0",
+        "discord.js": "^14.14.1"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^7.5.0",
+        "@typescript-eslint/parser": "^7.5.0",
+        "eslint": "^8.57.0",
+        "husky": "^9.0.11",
+        "lint-staged": "^15.2.2",
+        "prettier": "3.2.5",
+        "typescript": "^5.4.3",
+        "yarn": "^1.22.22"
+    }
 }
