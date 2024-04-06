@@ -56,6 +56,54 @@ new CommandHandler(client, {
         - **prefix** *(string)* - Your prefix
         - **path** *(string)* - Path to the commands folder
         - **log** *(boolean, optional)* - If you want the Command Handler to Log the status of the Handler.
+        - **cooldown** *(CooldownOptions)* - Cooldown for commands (see [Cooldown Options](#cooldown-options))
+
+## Cooldown Options
+
+Options for command cooldowns.
+
+### `defaultCooldown`
+
+Default cooldown if a command has none specified.
+
+- [x] Required
+- **type:** `number`
+
+### `message`
+
+Custom message when the user is on cooldown
+
+- **type:** `CooldownMessageOptions`
+
+<details>
+<summary><b>(JS) Example</b></summary>
+<br>
+Example:
+
+```js
+const { setTimeout: sleep } from 'node:timers/promises';
+
+new CommandHandler(client, {
+    prefix: 'PREFIX_HERE',
+    path: join(__dirname, 'commands'),
+    log: true,
+
+    cooldown: {
+        defaultCooldown: 5,
+        message: 'You are on cooldown! {cooldown}',
+        // or
+        async message(message, cooldown) {
+            const cooldownMessage = await message.reply({
+                content: `You are on cooldown! | Use it again ${cooldown}`
+            });,
+            
+            await sleep(3_000);
+            if (cooldownMessage.deletable) await cooldownMessage.delete();
+        }
+    }
+})
+```
+</details>
 
 ## Command Options
 
