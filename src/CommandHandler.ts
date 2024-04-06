@@ -1,22 +1,16 @@
 import { readdirSync } from 'node:fs';
 import { EventEmitter } from 'node:events';
 
-import {
-    Collection,
-    Client,
-} from 'discord.js';
+import { Collection, Client, Message } from 'discord.js';
 
-
-import {
-    CommandOptions,
-    CommandHandlerOptions,
-} from '../typings/interfaces';
+import { CommandOptions, CommandHandlerOptions } from '../typings/interfaces';
 
 import {
     CommandsCollection,
     CooldownsCollection,
     resolvedCommand,
 } from '../typings/index.d';
+
 import resolveCooldown from './resolver/cooldown';
 
 export default class CommandHandler extends EventEmitter {
@@ -74,18 +68,7 @@ export default class CommandHandler extends EventEmitter {
             const commands = this.commands.get(command!); // eslint-disable-line
             if (!commands) return;
 
-            const isCommandValid = this.resolveCommand(
-                commands, 
-                args
-            );
-
-            if (
-                this.options.cooldown &&
-                this.options.cooldown.defaultCooldown
-            ) {
-                const isOnCooldown = await resolveCooldown(message, commands, this.options, this.cooldowns);
-                if (isOnCooldown) return;
-            }
+            const isCommandValid = await this.resolveCommand(message, commands, args);
 
             switch (typeof isCommandValid) {
             /* eslint-disable indent */
@@ -106,21 +89,23 @@ export default class CommandHandler extends EventEmitter {
             /* eslint-enable */
 
             try {
-                const executedCMD = await commands.execute(message, args, this.client);
+                const executedCMD = await commands.execute(
+                    message,
+                    args,
+                    this.client
+                );
                 if (!executedCMD) return;
 
                 if (typeof executedCMD === 'string') {
                     await message.reply({
                         content: executedCMD,
                     });
-                }
-                else if (Array.isArray(executedCMD)) {
+                } else if (Array.isArray(executedCMD)) {
                     if (!executedCMD.length) return;
 
                     if (!executedCMD[1]) {
                         await message.channel.send(executedCMD[0]);
-                    }
-                    else if (executedCMD[1] === true) {
+                    } else if (executedCMD[1] === true) {
                         await message.reply(executedCMD[0]);
                     } else {
                         await message.reply(executedCMD[0]);
@@ -143,13 +128,27 @@ export default class CommandHandler extends EventEmitter {
      * @param {CommandOptions} command
      * @param {Array<string>} args
      *
-     * @returns {resolvedCommand}
+     * @returns {Promise<resolvedCommand>}
      */
-    public resolveCommand(command: CommandOptions, args: Array<string>): resolvedCommand {
+    public async resolveCommand(
+        message: Message,
+        command: CommandOptions,
+        args: Array<string>
+    ): Promise<resolvedCommand> {
         if (command.reqArgs && args.length < command.reqArgs) {
             return {
                 content: `**Not enough arguments passed!**\n(Need ${command.reqArgs} got ${args.length})`,
             };
+        }
+
+        if (this.options.cooldown && this.options.cooldown.defaultCooldown) {
+            const isOnCooldown = await resolveCooldown(
+                message,
+                command,
+                this.options,
+                this.cooldowns
+            )!;
+            if (isOnCooldown) return false;
         }
 
         return true;
@@ -162,13 +161,15 @@ export default class CommandHandler extends EventEmitter {
     private async _registerCommands(): Promise<void> {
         const path = this.options.path;
 
-        const commandFiles = readdirSync(path)
-            .filter((file) => file.endsWith('.js'));
+        const commandFiles = readdirSync(path).filter((file) =>
+            file.endsWith('.js')
+        );
 
         this.Log('Registering Commands...');
 
         for (const file of commandFiles) {
-            const command = ((await import(`${path}/${file}`)).default) as CommandOptions; // eslint-disable-line
+            const command = (await import(`${path}/${file}`))
+                .default as CommandOptions; // eslint-disable-line
 
             this.commands.set(command.name, command);
             if (this.options?.cooldown)
@@ -180,16 +181,15 @@ export default class CommandHandler extends EventEmitter {
     }
 
     /**
-        * Logs/Emits to event `logs`
-    *
-        * @param {string|T} message
-    * @param {boolean} [error]
-    */
-    private Log<T>(message: string | T , error?: boolean): void {
+     * Logs/Emits to event `logs`
+     *
+     * @param {string|T} message
+     * @param {boolean} [error]
+     */
+    private Log<T>(message: string | T, error?: boolean): void {
         if (!error) {
             this.emit('logs', `[INFO] [Command Handler]: ${message}`);
-        }
-        else if (error && error === true) {
+        } else if (error && error === true) {
             this.emit('logs', `[ERROR] [Command Handler]: ${message}`);
         }
     }
