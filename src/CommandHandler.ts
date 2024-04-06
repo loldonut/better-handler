@@ -4,7 +4,6 @@ import { EventEmitter } from 'node:events';
 import {
     Collection,
     Client,
-    Snowflake,
 } from 'discord.js';
 
 
@@ -14,6 +13,8 @@ import {
 } from '../typings/interfaces';
 
 import {
+    CommandsCollection,
+    CooldownsCollection,
     resolvedCommand,
 } from '../typings/index.d';
 import resolveCooldown from './resolver/cooldown';
@@ -22,8 +23,8 @@ export default class CommandHandler extends EventEmitter {
     public client: Client;
     public options: CommandHandlerOptions;
 
-    private commands: Collection<string, CommandOptions>;
-    private cooldowns: Collection<string, Collection<Snowflake, number>>;
+    private commands: CommandsCollection;
+    private cooldowns: CooldownsCollection;
 
     /**
      * @typedef {Object} CommandHandlerOptions
