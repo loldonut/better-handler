@@ -14,11 +14,11 @@ A DJS Command Handler to make it easier to handle both Prefixed Legacy Commands 
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Setup](#setup)
-- [Parameters](#parameters)
-- [Command Options](#commandoptions)
-- [Project Status](#status)
+-   [Installation](#installation)
+-   [Setup](#setup)
+-   [Parameters](#parameters)
+-   [Command Options](#commandoptions)
+-   [Project Status](#status)
 
 ## Installation
 
@@ -42,21 +42,22 @@ new CommandHandler(client, {
     // Command Handler to Log then
     // set 'log' property to false.
     log: false,
-})
+});
 ```
 
-**Note: It's important to use `path.join` otherwise the command handler won't find the folder!**
+> [!IMPORTANT]
+> It's important to use `path.join` otherwise the command handler won't find the folder!\*\*
 
 ### Parameters
 
-- **client** *(Client)* - Requires you to pass in `Client` class from discord.js `Client`
+-   **client** _(Client)_ - Requires you to pass in `Client` class from discord.js `Client`
 
-- **options** *(CommandHandlerOptions)* - Options for the Command Handler
-    - **CommandHandlerOptions**
-        - **prefix** *(string)* - Your prefix
-        - **path** *(string)* - Path to the commands folder
-        - **log** *(boolean, optional)* - If you want the Command Handler to Log the status of the Handler.
-        - **cooldown** *(CooldownOptions)* - Cooldown for commands (see [Cooldown Options](#cooldown-options))
+-   **options** _(CommandHandlerOptions)_ - Options for the Command Handler
+    -   **CommandHandlerOptions**
+        -   **prefix** _(string)_ - Your prefix
+        -   **path** _(string)_ - Path to the commands folder
+        -   **log** _(boolean, optional)_ - If you want the Command Handler to Log the status of the Handler.
+        -   **cooldown** _(CooldownOptions)_ - Cooldown for commands (see [Cooldown Options](#cooldown-options))
 
 ## Cooldown Options
 
@@ -66,14 +67,14 @@ Options for command cooldowns.
 
 Default cooldown if a command has none specified.
 
-- [x] Required
-- **type:** `number`
+-   [x] Required
+-   **type:** `number`
 
 ### `message`
 
 Custom message when the user is on cooldown
 
-- **type:** `CooldownMessageOptions`
+-   **type:** `CooldownMessageOptions`
 
 <details>
 <summary><b>(JS) Example</b></summary>
@@ -96,32 +97,33 @@ new CommandHandler(client, {
             const cooldownMessage = await message.reply({
                 content: `You are on cooldown! | Use it again ${cooldown}`
             });,
-            
+
             await sleep(3_000);
             if (cooldownMessage.deletable) await cooldownMessage.delete();
         }
     }
 })
 ```
+
 </details>
 
 ## Command Options
 
-***Available Command Options for your commands:***
+**_Available Command Options for your commands:_**
 
 ### name
 
 The name of the command
 
-- [x] Required
-- **type:** `string`
+-   [x] Required
+-   **type:** `string`
 
 ### execute
 
 The main function to run your command
 
-- [x] Required
-- **type:** `Function`
+-   [x] Required
+-   **type:** `Function`
 
 <details>
 <summary><b>(JS) Example</b></summary>
@@ -132,9 +134,12 @@ module.exports = {
     name: 'ping',
 
     async execute(message) {
-        return [{
-            content: `Pong! | ${message.client.ws.ping}ms`,
-        }, true];
+        return [
+            {
+                content: `Pong! | ${message.client.ws.ping}ms`,
+            },
+            true,
+        ];
     },
 };
 ```
@@ -153,6 +158,7 @@ module.exports = {
 [MessagePayload](https://discord.js.org/#/docs/discord.js/stable/class/MessagePayload)
 
 [ReplyMessageOptions](https://discord.js.org/#/docs/discord.js/stable/typedef/ReplyMessageOptions)
+
 </details>
 </details>
 
@@ -160,7 +166,7 @@ module.exports = {
 
 The required length of argument(s) needed to run the command
 
-- **type:** `number`
+-   **type:** `number`
 
 ## Status
 
