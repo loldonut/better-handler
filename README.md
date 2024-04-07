@@ -45,8 +45,7 @@ new CommandHandler(client, {
 });
 ```
 
-> [!IMPORTANT]
-> It's important to use `path.join` otherwise the command handler won't find the folder!\*\*
+> [!IMPORTANT] > **It's important to use `path.join` otherwise the command handler won't find the folder!**
 
 ### Parameters
 
